@@ -2,4 +2,8 @@ coverflow built with 3d transforms
 
 notes:
 cascading transforms, no way to multiply them in css
-translateZ is not a suitable replacement for z-index, in fact the 2 interact in very weird (and buggy) ways
+
+translateZ is not a suitable replacement for z-index, in fact the 2 interact in very weird (and buggy) ways-
+http://code.google.com/p/chromium/issues/detail?id=141265
+
+even using just z-index, mouse targets for :hover pseudo-selector are totally wonky

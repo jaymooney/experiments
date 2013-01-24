@@ -1,4 +1,5 @@
 #container {
+    -webkit-transition: left .2s ease-out;
     -webkit-perspective: 500px;
     -webkit-perspective-origin: 400px -200px;
     position: absolute;
@@ -11,13 +12,15 @@
 #viewport {
     position: absolute;
     top: 300px;
-    width: 800px;
+    width: 600px;
     height: 400px;
     overflow: hidden;
+    border: 2px solid #333;
+    border-radius: p8x;
 }
 
 .listItem {
-    -webkit-transition: all .4s ease-out;
+    -webkit-transition: all .5s ease-out;
     border: 1px solid #000;
     background-color: #ccf;
     padding: 16px;

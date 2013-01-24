@@ -1,5 +1,5 @@
 var container;
-var rotate = 0;
+var containerLeft = 0;
 var updating = false;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -10,25 +10,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 function onwheelscroll(event) {
-    var change = Math.floor(event.wheelDelta / 60);
-    rotate += change;
+    var change = Math.floor(event.wheelDelta / 20);
+    containerLeft += change;
     requestUpdate();
-}
-
-function onffwheelscroll(event) {
-    var change = event.deltaX;
-    rotate += change;
-    container.style.mozTransform = "rotate(" + rotate  + "deg)";
 }
 
 function requestUpdate() {
     if (!updating) {
-        requestAnimationFrame(updateContainer);
+        requestAnimationFrame(updatecontainer);
         updating = true;
     }
 }
 
-function updateContainer() {
+function updatecontainer() {
     updating = false;
-    container.style.webkitTransform = "rotateY(" + rotate  + "deg)";
+    container.style.left = containerLeft  + "px";
 }
