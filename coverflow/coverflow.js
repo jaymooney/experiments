@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     container = document.getElementById("container");
     listNodes = container.querySelectorAll(".listItem");
     viewport.addEventListener("mousewheel", onwheelscroll, false);
-    viewport.addEventListener("keypress", onkeypress, false);
+    document.addEventListener("keydown", onkeydown, false);
     //window.addEventListener("DOMMouseScroll", onffwheelscroll, true);
 }, false);
 
@@ -29,15 +29,19 @@ function onwheelscroll(event) {
     requestUpdate();
 }
 
-function onkeypress(event) {
-    if (event.keyCode === 37) {
-        // left arrow 
-        updateActiveItem(-1);
-    } else if (event.keyCode === 39) {
-        // right arrow 
-        updateActiveItem(1);
+function onkeydown(event) {
+    switch (event.keyCode) {
+        case 37:
+        case 38:
+            // left or up arrow 
+            updateActiveItem(-1);
+            break;
+        case 39:
+        case 40:
+            // right or down arrow 
+            updateActiveItem(1);
+            break;
     }
-    event.preventDefault();
     requestUpdate();
 }
 
