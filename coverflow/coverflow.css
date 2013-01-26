@@ -1,7 +1,5 @@
 #container {
     -webkit-transition: left .5s ease-out;
-    -webkit-perspective: 500px;
-    -webkit-perspective-origin: 400px -200px;
     position: absolute;
     top: 100px;
     left: 20px;
@@ -12,19 +10,19 @@
 
 #viewport {
     position: absolute;
-    top: 300px;
+    top: 100px;
     width: 600px;
     height: 400px;
     overflow: hidden;
     border: 2px solid #333;
     border-radius: 8px;
+    -webkit-perspective: 500px;
+    -webkit-perspective-origin: 50% -100px;
 }
 
 .listItem {
     -webkit-transition: all .5s ease-out;
     border: 1px solid #000;
-    background-color: #ccf;
-    padding: 16px;
     width: 240px;
     height: 160px;
     box-sizing: border-box;
@@ -32,7 +30,7 @@
     position: relative;
     float: left;
     margin: 0 -80px;
-    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from( transparent ), color-stop(0.5, transparent), to( rgba(50,50,50,0.5) ) );
+    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.5, transparent), to(rgba(50,50,50,0.3)));
 }
 
 .leftSide {
@@ -41,50 +39,23 @@
 .rightSide {
     -webkit-transform: rotateY(-55deg);
 }
-/*
-.leftSide:nth-child(1) {
-    -webkit-transform: rotateY(55deg) scale(.6);
-    opacity: .6;
-}
 
-.leftSide:nth-child(2) {
-    -webkit-transform: rotateY(55deg) scale(.7);
-    opacity: .7;
-}
-
-.rightSide:nth-child(4) {
-    -webkit-transform: rotateY(-55deg) scale(.7);
-    opacity: .7;
-    z-index: 4;
-}
-
-.rightSide:nth-child(5) {
-    -webkit-transform: rotateY(-55deg) scale(.6);
-    opacity: .6;
-    z-index: 3;
-}
-
-.rightSide:nth-child(6) {
-    -webkit-transform: rotateY(-55deg) scale(.5);
-    opacity: .5;
-    z-index: 2;
-}
-
-.rightSide:nth-child(7) {
-    -webkit-transform: rotateY(-55deg) scale(.4);
-    opacity: .4;
-    z-index: 1;
-}
-*/
 .activeItem {
     margin: 0;
     z-index: 5;
     -webkit-transform: none;
     opacity: 1;
 }
-
+/* don't work because the transform set in js overrides this
 .listItem:hover {
     opacity: 1;
     z-index: 6;
     -webkit-transform: none;
+}*/
+.listItem img {
+    width: 100%;
+    height: 100%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
