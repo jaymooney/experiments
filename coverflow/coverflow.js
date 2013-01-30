@@ -3,7 +3,7 @@ var viewport;
 var listNodes;
 var containerLeft = 0;
 var activeIndex = 2;
-var newActiveIndex = 0;
+var newActiveIndex = 2;
 var updating = false;
 var rightClass = "rightSide";
 var leftClass = "leftSide";
@@ -18,11 +18,13 @@ document.addEventListener("DOMContentLoaded", function () {
     listNodes = container.querySelectorAll(".listItem");
     viewport.addEventListener("mousewheel", onwheelscroll, false);
     document.addEventListener("keydown", onkeydown, false);
+    requestUpdate();
     //window.addEventListener("DOMMouseScroll", onffwheelscroll, true);
 }, false);
 
 function onwheelscroll(event) {
-    var change = event.wheelDelta / 120;
+    var change = Math.round(event.wheelDelta / 120);
+    console.log("wheelDelta: " + event.wheelDelta + ", change: " + change);
     updateActiveItem(change);
     containerLeft += change;
     event.preventDefault();
