@@ -2,28 +2,78 @@ var container;
 var viewport;
 var listNodes;
 var containerLeft = 0;
-var activeIndex = 2;
-var newActiveIndex = 2;
+var activeIndex = 27;
+var newActiveIndex = activeIndex;
 var updating = false;
-var rightClass = "rightSide";
-var leftClass = "leftSide";
+var listItemClass = "listItem";
 var activeClass = "activeItem";
+var draggingMF = false;
+var lastX;
 var coverflowOptions = {
 
 };
+var spacer = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+
+function createTeamDiv(team) {
+    var teamDiv = document.createElement("div");
+    teamDiv.classList.add(listItemClass);
+    teamDiv.style.color = "#" + team.color;
+    teamDiv.style.borderColor = "#" + team.color;
+    teamDiv.appendChild(document.createTextNode(team.city + " " + team.name));
+    teamDiv.appendChild(document.createElement("br"));
+    var logo = document.createElement("img");
+    logo.src = "logos/" + team.key + ".gif";
+    teamDiv.appendChild(logo);
+    var conference = document.createElement("img");
+    conference.src = spacer;
+    conference.classList.add(team.conference.toLowerCase());
+    teamDiv.appendChild(conference);
+    return teamDiv;
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     viewport = document.getElementById("viewport");
     container = document.getElementById("container");
-    listNodes = container.querySelectorAll(".listItem");
+    listNodes = [];
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < allteams.length; i++) {
+        var teamDiv = createTeamDiv(allteams[i]);
+        listNodes[i] = teamDiv;
+        fragment.appendChild(teamDiv);
+    }
+    container.appendChild(fragment);
     viewport.addEventListener("mousewheel", onwheelscroll, false);
+    viewport.addEventListener("mousedown", startdrag, false);
+    viewport.addEventListener("mousemove", dragmove, false);
+    document.addEventListener("mouseup", enddrag, false);
+    document.addEventListener("mouseout", enddrag, false);
     document.addEventListener("keydown", onkeydown, false);
     requestUpdate();
     //window.addEventListener("DOMMouseScroll", onffwheelscroll, true);
 }, false);
 
+function startdrag(event) {
+    draggingMF = true;
+    lastX = event.screenX;
+}
+
+function enddrag(event) {
+    draggingMF = false;
+}
+
+function dragmove(event) {
+    if (draggingMF) {
+        var newX = event.screenX;
+        var change = Math.round((newX - lastX) / 20);
+        console.log("raw change: " + (newX - lastX) + ", change: " + change);
+        lastX = newX;
+        updateActiveItem(change);
+        requestUpdate();
+    }
+}
+
 function onwheelscroll(event) {
-    var change = Math.round(event.wheelDelta / 120);
+    var change = Math.round(event.wheelDelta / -120);
     console.log("wheelDelta: " + event.wheelDelta + ", change: " + change);
     updateActiveItem(change);
     containerLeft += change;
@@ -34,15 +84,17 @@ function onwheelscroll(event) {
 function onkeydown(event) {
     switch (event.keyCode) {
         case 37:
-        case 38:
-            // left or up arrow 
+            // left arrow 
             updateActiveItem(-1);
             break;
         case 39:
-        case 40:
-            // right or down arrow 
+            // right arrow 
             updateActiveItem(1);
             break;
+        case 38:
+        // up
+        case 40:
+        // down
     }
     requestUpdate();
 }
@@ -62,13 +114,6 @@ function updateUI() {
     var targetNode = listNodes[targetIndex];
     var oldNode = listNodes[oldIndex];
 
-    if (targetIndex > oldIndex) {
-        targetNode.classList.remove(rightClass);
-        oldNode.classList.add(leftClass);
-    } else if (targetIndex < oldIndex) {
-        targetNode.classList.remove(leftClass);
-        oldNode.classList.add(rightClass);
-    }
     oldNode.classList.remove(activeClass);
     targetNode.classList.add(activeClass);
     var length = listNodes.length;
@@ -77,7 +122,8 @@ function updateUI() {
         var distance = i - targetIndex;
         if (distance === 0) {
             // it is the focused node
-            node.removeAttribute("style");
+            node.style.removeProperty("-webkit-transform");
+            node.style.removeProperty("opacity");
             node.style.zIndex = length;
         } else {
             var norm = Math.abs(distance);

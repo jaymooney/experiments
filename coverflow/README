@@ -1,5 +1,7 @@
 coverflow built with 3d transforms
 
+logos for nfl teams demo taken from sportslogos.net, colors pulled from nfl.com site
+
 notes:
 cascading transforms, no way to multiply them in css
 
