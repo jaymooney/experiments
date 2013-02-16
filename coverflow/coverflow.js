@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     viewport.addEventListener("mousedown", startdrag, false);
     viewport.addEventListener("mousemove", dragmove, false);
     document.addEventListener("mouseup", enddrag, false);
-    document.addEventListener("mouseout", enddrag, false);
+    //document.addEventListener("mouseout", enddrag, false);
     document.addEventListener("keydown", onkeydown, false);
     requestUpdate();
     //window.addEventListener("DOMMouseScroll", onffwheelscroll, true);
@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function startdrag(event) {
     draggingMF = true;
     lastX = event.screenX;
+    event.preventDefault();
 }
 
 function enddrag(event) {
@@ -64,7 +65,7 @@ function enddrag(event) {
 function dragmove(event) {
     if (draggingMF) {
         var newX = event.screenX;
-        var change = Math.round((newX - lastX) / 20);
+        var change = Math.round((newX - lastX) / -40);
         console.log("raw change: " + (newX - lastX) + ", change: " + change);
         lastX = newX;
         updateActiveItem(change);
